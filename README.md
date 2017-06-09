@@ -1,6 +1,6 @@
 # Fluentd Logger
 
-Logs to a fluentd log shipper.
+Sends application log messages and events to a fluentd log shipper.
 
 # Installation
 
