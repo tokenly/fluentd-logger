@@ -63,16 +63,18 @@ $data should contain numeric data.  Think of $tags as additional indexes for tha
 ## Usage without Laravel
 
 ```php
-$fluent_logger = new \Tokenly\FluentdLoggerFluentLogger($host, $port);
+$fluent_logger = new \Tokenly\FluentdLogger\FluentLogger($host, $port);
 
 # set a tag prefix
+$app_code = 'myapp';
+$environment = 'production';
 $tag = 'applog.'.$app_code.'.'.$environment;
 
 # set up monolog
-$monolog->pushHandler(new \Tokenly\FluentdLoggerFluentMonologHandler($fluent_logger, $tag));
+$monolog->pushHandler(new \Tokenly\FluentdLogger\FluentMonologHandler($fluent_logger, $tag));
 
 # set up fluent event logger for measurements
-$measurement_logger = new \Tokenly\FluentdLogger\FluentEventLogger($fluent_logger, 'measure.'.$tag);
+$measurement_logger = new \Tokenly\FluentdLogger\FluentEventLogger($fluent_logger, 'measure.'.$app_code.'.'.$environment);
 
 
 # use monolog
