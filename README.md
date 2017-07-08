@@ -26,10 +26,10 @@ Tokenly\FluentdLogger\FluentdLoggerServiceProvider::class,
 ```
 APP_CODE=myapp
 FLUENTD_ENABLED=true
-FLUENTD_APPLOG_LEVEL=DEBUG
+FLUENTD_APPLOG_LEVEL=debug
 
 # this makes the default Laravel monolog handler very quiet to not fill up the hard drive
-APP_LOG_LEVEL=EMERGENCY
+APP_LOG_LEVEL=emergency
 
 # for a local fluentd instance (recommended)
 FLUENTD_SOCKET=/tmp/fluentd.sock
