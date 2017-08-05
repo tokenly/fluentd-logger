@@ -39,7 +39,7 @@ class FluentMonologHandler extends AbstractProcessingHandler
             [
                 'level'   => $record['level_name'],
                 'message' => $record['message'],
-                'mt'      => intval(round(microtime(true) * 1000)),
+                'mt'      => intval(round(microtime(true) * 1000000)),
             ]
         );
     }
