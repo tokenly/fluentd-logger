@@ -35,7 +35,7 @@ class FluentEventLogger
     /**
      * @param array $record
      */
-    public function log($event, $data, $tags)
+    public function log($event, $data, $tags, $override_time=null)
     {
         try {
             $tag = 
@@ -44,7 +44,7 @@ class FluentEventLogger
 
             // build an entity and post it
             $data = $this->formatFluentLogData($data, $tags);
-            $entity = new Entity($tag, $data);
+            $entity = new Entity($tag, $data, $override_time);
             $this->logger->post2($entity);
         } catch (Exception $e) {
             EventLog::logError('fluentlog.failed', $e, ['event' => $event]);
