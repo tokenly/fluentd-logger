@@ -19,3 +19,23 @@ if (!function_exists('fluent_measure')) {
     }
 
 }
+
+
+if (!function_exists('fluent_slack')) {
+
+    /**
+     * logs a measurement to fluentd
+     * A Laravel helper
+     * 
+     * @param  string $channel channel name (without the #)
+     * @param  string $title   The message summary
+     * @param  string $msg     More message details
+     */
+    function fluent_measure($channel, $title, $msg='') {
+        $logger = app('fluent.slack');
+        if (!$logger) { return; }
+
+        $logger->log($channel, $title, $msg);
+    }
+
+}

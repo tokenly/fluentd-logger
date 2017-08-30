@@ -7,6 +7,7 @@ use Illuminate\Contracts\Logging\Log as LoggerInterface;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
 use Tokenly\FluentdLogger\FluentMonologHandler;
+use Tokenly\FluentdLogger\FluentSlackLogger;
 
 class FluentdLoggerServiceProvider extends ServiceProvider
 {
@@ -33,6 +34,18 @@ class FluentdLoggerServiceProvider extends ServiceProvider
             return new FluentEventLogger($fluent_logger, 'measure.'.$config['app_code'].'.'.$app['env']);
         });
 
+
+        // add a slack handler (slack.*)
+        $this->app->singleton('fluent.slack', function ($app) {
+            $config = $app['config']->get('fluent');
+
+            if (!$config['enabled']) {
+                return null;
+            }
+
+            $fluent_logger = new FluentLogger($config['host'], $config['port'], $config['options']);
+            return new FluentSlackLogger($fluent_logger, 'slack.'.$config['app_code'].'.'.$app['env']);
+        });
 
         // register monolog handler (applog.*)
         $config = $this->app['config']->get('fluent');
