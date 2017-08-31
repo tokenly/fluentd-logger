@@ -35,7 +35,7 @@ if (!function_exists('fluent_slack')) {
         $logger = app('fluent.slack');
         if (!$logger) { return; }
 
-        $logger->log($channel, $title, $msg);
+        $logger->send($channel, $title, $msg);
     }
 
 }
