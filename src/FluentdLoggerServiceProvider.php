@@ -3,9 +3,10 @@
 namespace Tokenly\FluentdLogger;
 
 use Fluent\Logger\FluentLogger;
-use Illuminate\Contracts\Logging\Log as LoggerInterface;
+use Illuminate\Contracts\Logging\Log as LogContract;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Tokenly\FluentdLogger\FluentMonologHandler;
 use Tokenly\FluentdLogger\FluentSlackLogger;
 
@@ -50,10 +51,16 @@ class FluentdLoggerServiceProvider extends ServiceProvider
         // register monolog handler (applog.*)
         $config = $this->app['config']->get('fluent');
         if ($config['enabled']) {
-            $logger = app(LoggerInterface::class);
+            if (interface_exists(LogContract::class)) {
+                // Laravel 5.5 and below
+                $monolog = app(LogContract::class)->getMonolog();
+            } else {
+                // Laravel 5.6+
+                $monolog = app(LoggerInterface::class)->driver();
+            }
             $fluent_logger = new FluentLogger($config['host'], $config['port'], $config['options']);
             $tag = 'applog.'.$config['app_code'].'.'.$this->app['env'];
-            return $logger->getMonolog()->pushHandler(
+            return $monolog->pushHandler(
                 new FluentMonologHandler($fluent_logger, $tag, $config['applog.level'])
             );
         }
