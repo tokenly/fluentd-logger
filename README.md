@@ -34,12 +34,12 @@ APP_LOG_LEVEL=emergency
 # for a local fluentd instance
 FLUENTD_SOCKET=/tmp/fluentd.sock
 
-# if using a remote fluentd server
-# FLUENTD_HOST=http://some.host
-# FLUENTD_PORT=24224
+# if using a remote fluentd server (or fluent bit)
+# FLUENTD_HOST=127.0.0.1
+# FLUENTD_PORT=5170
 
 # if using fluent bit
-FLUENTD_USE_FLUENT_BIT=true
+# FLUENTD_USE_FLUENT_BIT=true
 ```
 
 
