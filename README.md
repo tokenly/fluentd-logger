@@ -31,12 +31,15 @@ FLUENTD_APPLOG_LEVEL=debug
 # this makes the default Laravel monolog handler very quiet to not fill up the hard drive
 APP_LOG_LEVEL=emergency
 
-# for a local fluentd instance (recommended)
+# for a local fluentd instance
 FLUENTD_SOCKET=/tmp/fluentd.sock
 
-# if using a remote fluentd server (not recommended)
+# if using a remote fluentd server
 # FLUENTD_HOST=http://some.host
 # FLUENTD_PORT=24224
+
+# if using fluent bit
+FLUENTD_USE_FLUENT_BIT=true
 ```
 
 
@@ -75,6 +78,9 @@ $monolog->pushHandler(new \Tokenly\FluentdLogger\FluentMonologHandler($fluent_lo
 
 # set up fluent event logger for measurements
 $measurement_logger = new \Tokenly\FluentdLogger\FluentEventLogger($fluent_logger, 'measure.'.$app_code.'.'.$environment);
+
+# Or, instead of the above, set up fluent using fluent bit event logger for measurements
+# $measurement_logger = new \Tokenly\FluentdLogger\FluentEventLogger($fluent_logger, 'measure.'.$app_code.'.'.$environment, [], new \Tokenly\FluentdLogger\Packer\FluentBitJsonPacker());
 
 
 # use monolog
